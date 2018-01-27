@@ -7,9 +7,12 @@ import android.util.Log;
 import java.io.IOException;
 
 import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,16 +28,35 @@ public class MainActivity extends AppCompatActivity {
         double longitude = -122.4233;
         String forecastURL = "https://api.darksky.net/forecast/" + apiKey + "/" + latitude + "," + longitude;
 
-        OkHttpClient client = new OkHttpClient();
+        final OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(forecastURL).build();
         Call call = client.newCall(request);
-        try {
-            Response response = call.execute();
-            if (response.isSuccessful()) {
-                Log.v(LOG_TAG, response.body().string());
+
+        call.enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "IOException caught: ", e);
-        }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+
+                try {
+
+                    Log.v(LOG_TAG, response.body().string());
+                    if (response.isSuccessful()) {
+                    }
+                    else {
+                        alertUserAboutError();
+                    }
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "IOException caught: ", e);
+                }
+            }
+        });
+
+
+        Log.d(LOG_TAG, "Main UI code is running!");
+    }
+
+    private void alertUserAboutError() {
     }
 }
