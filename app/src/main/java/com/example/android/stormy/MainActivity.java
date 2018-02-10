@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         String apiKey = "210439731034a0102c3f6e4a1f7973f9";
-        double latitude = 37.8267;
+        double latitude = 9999; //37.8267;
         double longitude = -122.4233;
         String forecastURL = "https://api.darksky.net/forecast/" + apiKey + "/" + latitude + "," + longitude;
 
@@ -58,5 +58,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void alertUserAboutError() {
+
+        AlertDialogFragment dialogFragment = new AlertDialogFragment();
+        dialogFragment.show(getFragmentManager(), "ALERT_DIALOG");
     }
 }
