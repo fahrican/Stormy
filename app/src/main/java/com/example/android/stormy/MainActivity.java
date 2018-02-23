@@ -81,8 +81,6 @@ public class MainActivity extends AppCompatActivity {
     private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
 
         JSONObject forcast = new JSONObject(jsonData);
-        String timeZone = forcast.getString("timezone");
-        Log.i(LOG_TAG, "From getCurrentDetails(): " + timeZone);
         JSONObject currently = forcast.getJSONObject("currently");
 
         CurrentWeather currentWeather = new CurrentWeather();
@@ -92,8 +90,9 @@ public class MainActivity extends AppCompatActivity {
         currentWeather.setPrecipChance(currently.getDouble("precipProbability"));
         currentWeather.setTemperature(currently.getDouble("temperature"));
         currentWeather.setHumidity(currently.getDouble("humidity"));
-        currentWeather.setTimeZone(timeZone);
+        currentWeather.setTimeZone(forcast.getString("timezone"));
 
+        Log.i(LOG_TAG, "Timezone: " + currentWeather.getTimeZone());
         Log.d(LOG_TAG, "Time: " + currentWeather.getFormattedTime());
 
         return currentWeather;
