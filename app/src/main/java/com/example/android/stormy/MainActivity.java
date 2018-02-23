@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -21,6 +24,7 @@ import okhttp3.ResponseBody;
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private CurrentWeather currentWeather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,23 +53,50 @@ public class MainActivity extends AppCompatActivity {
 
                     try {
 
-                        Log.v(LOG_TAG, response.body().string());
+                        String jsonData = response.body().string();
+                        Log.v(LOG_TAG, jsonData);
                         if (response.isSuccessful()) {
+
+                            currentWeather = getCurrentDetails(jsonData);
                         } else {
                             alertUserAboutError(getString(R.string.error_title), getString(R.string.error_message));
                         }
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e) {
+                        Log.e(LOG_TAG, "IOException caught: ", e);
+                    }
+                    catch (JSONException e) {
                         Log.e(LOG_TAG, "IOException caught: ", e);
                     }
                 }
             });
-        }
-        else {
+        } else {
             alertUserAboutError(getString(R.string.no_network_connection), getString(R.string.no_network_connection_text));
             Toast.makeText(this, R.string.network_unavailable, Toast.LENGTH_LONG).show();
         }
 
         Log.d(LOG_TAG, "Main UI code is running!");
+    }
+
+    private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
+
+        JSONObject forcast = new JSONObject(jsonData);
+        String timeZone = forcast.getString("timezone");
+        Log.i(LOG_TAG, "From getCurrentDetails(): " + timeZone);
+        JSONObject currently = forcast.getJSONObject("currently");
+
+        CurrentWeather currentWeather = new CurrentWeather();
+        currentWeather.setTime(currently.getLong("time"));
+        currentWeather.setIcon(currently.getString("icon"));
+        currentWeather.setSummary(currently.getString("summary"));
+        currentWeather.setPrecipChance(currently.getDouble("precipProbability"));
+        currentWeather.setTemperature(currently.getDouble("temperature"));
+        currentWeather.setHumidity(currently.getDouble("humidity"));
+        currentWeather.setTimeZone(timeZone);
+
+        Log.d(LOG_TAG, "Time: " + currentWeather.getFormattedTime());
+
+        return currentWeather;
     }
 
     private boolean isNetworkAvailable() {

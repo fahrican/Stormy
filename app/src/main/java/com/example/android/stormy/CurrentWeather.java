@@ -1,5 +1,9 @@
 package com.example.android.stormy;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class CurrentWeather {
 
     private long time;
@@ -8,6 +12,16 @@ public class CurrentWeather {
     private double precipChance;
     private double temperature;
     private double humidity;
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
+
+    private String timeZone;
 
     public long getTime() {
         return time;
@@ -55,5 +69,12 @@ public class CurrentWeather {
 
     public void setHumidity(double humidity) {
         this.humidity = humidity;
+    }
+
+    public String getFormattedTime(){
+
+        SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
+        formatter.setTimeZone(TimeZone.getTimeZone(this.getTimeZone()));
+       return formatter.format(new Date(this.getTime() * 1000));
     }
 }
