@@ -47,16 +47,16 @@ public class CurrentWeather {
         this.icon = icon;
     }
 
-    public double getPrecipChance() {
-        return precipChance;
+    public int getPrecipChance() {
+        return (int) Math.round(precipChance*100);
     }
 
     public void setPrecipChance(double precipChance) {
         this.precipChance = precipChance;
     }
 
-    public double getTemperature() {
-        return temperature;
+    public int getTemperature() {
+        return (int) Math.round(temperature);
     }
 
     public void setTemperature(double temperature) {

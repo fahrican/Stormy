@@ -7,22 +7,31 @@
     android:background="#fffc970b"
     tools:context="com.example.android.stormy.MainActivity">
 
-    <TextView
-        android:id="@+id/timeText"
+    <ImageView
+        android:id="@+id/refreshImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/degreeImageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/refresh" />
+
+    <TextView
+        android:id="@+id/timeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/temperatureLabel"
         android:layout_centerInParent="true"
-        android:text="At 5 PM it will be"
+        android:text="..."
         android:textColor="#80FFFFFF"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/degreeImageView"
+        android:id="@+id/temperatureLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="100°"
+        android:text="--"
         android:textColor="@android:color/white"
         android:textSize="150sp" />
 
@@ -30,7 +39,7 @@
         android:id="@+id/locationTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/timeText"
+        android:layout_above="@+id/timeLabel"
         android:layout_centerInParent="true"
         android:layout_marginBottom="44dp"
         android:text="San Francisco, CA"
@@ -51,7 +60,7 @@
         android:id="@+id/containerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/degreeImageView"
+        android:layout_below="@id/temperatureLabel"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -71,16 +80,15 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/HUMIDITY"
+                android:id="@+id/humidityValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="0.88"
+                android:text="--"
                 android:textColor="@android:color/white"
                 android:textSize="24sp" />
 
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -94,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="RAIN?"
+                android:text="RAIN/SNOW?"
                 android:textColor="#80FFFFFF"
                 android:textSize="12sp" />
 
@@ -103,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="70%"
+                android:text="--"
                 android:textColor="@android:color/white"
                 android:textSize="24sp" />
 
@@ -113,13 +121,24 @@
 
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/summaryLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/containerLayout"
-        android:text="Stormy with a chance of meatballs"
         android:gravity="center_horizontal"
+        android:text="..."
         android:textColor="@android:color/white"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
+
+    <ProgressBar
+        android:id="@+id/myProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/refreshImageView"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@android:color/white"
+        android:progressBackgroundTint="@android:color/white"/>
+
 
 </RelativeLayout>
