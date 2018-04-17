@@ -1,4 +1,6 @@
-package com.example.android.stormy;
+package com.example.android.stormy.weather;
+
+import com.example.android.stormy.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
